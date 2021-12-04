@@ -1,5 +1,6 @@
 #lang racket
 (require "main-helper.rkt")
+(require koyo/random)
 
 (when (file-exists? "blockchain.data")
   (begin
@@ -22,7 +23,7 @@
 
 ; Blockchain initiation
 (printf "Mining genesis block...\n")
-(define blockchain (init-blockchain genesis-t "1337cafe" utxo))
+(define blockchain (init-blockchain genesis-t (generate-random-string 4096) utxo))
 (print-wallets blockchain wallet-a wallet-b)
 
 ; Make a second transaction

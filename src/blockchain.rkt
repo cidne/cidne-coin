@@ -16,7 +16,7 @@
 
 ; Start with 50 coins initially, and halve them on every 210000 blocks
 (define (mining-reward-factor blocks)
-  (/ 50 (expt 2 (floor (/ (length blocks) 210000)))))
+  (/ .00000001 (expt 2 (floor (/ (length blocks) 210000)))))
 
 ; Add transaction to blockchain by processing the unspent transaction outputs
 (define (add-transaction-to-blockchain b t)

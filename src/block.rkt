@@ -1,5 +1,10 @@
 #lang racket
 
+(require (only-in file/sha1 hex-string->bytes))
+(require (only-in sha sha256))
+(require (only-in sha bytes->hex-string))
+(require racket/serialize)
+
 (struct block
   (hash previous-hash transaction timestamp nonce)
   #:prefab)
@@ -44,7 +49,4 @@
 
 (provide (struct-out block) mine-block valid-block? mined-block?)
 
-(require (only-in file/sha1 hex-string->bytes))
-(require (only-in sha sha256))
-(require (only-in sha bytes->hex-string))
-(require racket/serialize)
+
