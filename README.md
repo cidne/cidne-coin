@@ -1,4 +1,4 @@
-Meta-Coin v0.001 by Cidne
+Cidne-Coin v0.001 by Cidne
 ====================================
 Based on a fork of Racket-Coin v1.0 by Boro Sitnikovski
 
