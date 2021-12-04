@@ -83,7 +83,7 @@ Data:	...00aa672e9ffb3e92... sends ...00e1619e56b49e3b... an amount of 100.
 Exported blockchain to 'blockchain.data'...
 ```
 
-My hope is to turn this project into a simple somewhat secure tool for managing household projects (e.g., chores, garden sensor data, perishables, etc.  I'm really just goofing around--I'm sure there are much better projects out there if you're looking for something serious.
+My hope is to turn this project into a simple, somewhat secure tool for managing household projects (e.g., chores, garden sensor data, perishables, etc.  I'm really just goofing around--I'm sure there are much better projects out there if you're looking for something serious.
 
 Cidne
 
