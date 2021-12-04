@@ -3,7 +3,9 @@ Meta-Coin v0.001 by Cidne
 Based on a fork of Racket-Coin v1.0 by Boro Sitnikovski
 
 To clone me: Write 
-```git clone https://github.com/cidne/meta-coin
+```
+git clone https://github.com/cidne/meta-coin
+
 ```
 
 You can run [DrRacket](https://racket-lang.org/) with `main.rkt`. Otherwise, for command line, first install dependencies by writing `make deps` and then run `make` or `make run`.
