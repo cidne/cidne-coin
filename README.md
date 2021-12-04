@@ -29,7 +29,7 @@ Project structure:
   - `utils.rkt` contains some generally useful procedures.
   - `peer-to-peer.rkt` contains procedures for syncing blockchains between peers, syncing valid peers, etc.
 
-Note that this is just an example cryptocurrency implementation in Racket and is being modified to be run in production.
+Note that this is just an example cryptocurrency implementation in Racket and is being modified to be run in pseudo production.  😝
 
 Example output:
 ```
