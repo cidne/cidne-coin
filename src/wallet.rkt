@@ -1,7 +1,5 @@
 #lang racket
 
-;(require crypto)
-;(require crypto/all)
 (require (only-in crypto get-pk))
 (require (only-in crypto generate-private-key))
 (require (only-in crypto pk-key->public-only-key))
@@ -30,7 +28,7 @@
             (bytes->hex-string
              (pk-key->datum pubkey 'SubjectPublicKeyInfo)))))
 
-; Make wallet by generating random public and private keys.
+; Make wallet by generating random public and private keys and encrypt based on a passphrase provided by xkcdpass.
 (define (make-wallet-enc)
   (define-values (sp out in err)
     (subprocess #f #f #f "/usr/bin/xkcdpass" "-n 3"))
@@ -42,24 +40,24 @@
            [pubkey (pk-key->public-only-key privkey)]
            [enc-privkey (pkcs8-encrypt/pbkdf2-hmac (string->bytes/utf-8 pw) (pk-key->datum privkey 'PrivateKeyInfo) #:iterations 1000000)]
            [enc-pubkey (pkcs8-encrypt/pbkdf2-hmac (string->bytes/utf-8 pw) (pk-key->datum pubkey 'SubjectPublicKeyInfo) #:iterations 1000000)])
-    
+
     (wallet-enc (bytes->hex-string
              (pk-key->datum privkey 'PrivateKeyInfo))
             (bytes->hex-string
              (pk-key->datum pubkey 'SubjectPublicKeyInfo))
             enc-privkey enc-pubkey)))
 
-;  Store wallet after generating a password and hashing the keys
+;  Store encrypted wallet
 (define (store-wallet wal)
   (struct->file (wallet (wallet-enc-private-key-enc wal) (wallet-enc-public-key-enc wal)) "wallet.data"))
 
 ;  Open a stored wallet or call to create and store one.
 (define (open-wallet)
   (cond
-    [(file-exists? "wallet.data") 
-     (printf "Loading Wallet...")
+    [(file-exists? "wallet.data")
+     (printf "Loading Wallet...\n")
+     (printf "Enter passphrase...")
      (define passwd (read-line))
-     ;(printf "~a" (wallet-private-key (file->struct "wallet.data")))
      (define privkey (pkcs8-decrypt-key (string->bytes/utf-8 passwd) (wallet-private-key (file->struct "wallet.data"))))
      (define pubkey (pkcs8-decrypt-bytes (string->bytes/utf-8 passwd) (wallet-public-key (file->struct "wallet.data"))))
      (wallet (bytes->hex-string
