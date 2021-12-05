@@ -1,6 +1,6 @@
 #lang racket
 (require "main-helper.rkt")
-(require koyo/random)
+(require (only-in crypto crypto-random-bytes))
 
 (define args (vector->list (current-command-line-arguments)))
 
@@ -20,17 +20,8 @@
 (define valid-peers
   (map string-to-peer-info (string-split (caddr args) ",")))
 
-; Create a new wallet for us to use
-(define (open-wallet)
-  (if (file-exists? "wallet.data")
-      (begin
-        (printf "Loading Wallet...")
-        (file->struct "wallet.data"))
-      (begin
-        (printf "Wallet not found... Creating...")
-        (struct->file (make-wallet) "wallet.data")
-        (file->struct "wallet.data"))))
 
+; Open wallet or create a new wallet for us to use
 (define wallet-a (open-wallet))
 
 
@@ -51,7 +42,7 @@
 
     ; Blockchain initiation
     (printf "Mining genesis block...\n")
-    (define b (init-blockchain genesis-t (generate-random-string 4096) utxo))
+    (define b (init-blockchain genesis-t (crypto-random-bytes 4096) utxo))
     b))
 
 ; Try to read the blockchain from a file (DB), otherwise create a new one
@@ -84,8 +75,6 @@
          (send-money-blockchain (get-blockchain) wallet-a wallet-a 1 (file->contract "contract.script"))])
     (set-peer-context-data-blockchain! peer-context newer-blockchain)
     (printf "Mined a block!")
-    (printf "\nBalance: ~a"
-            (balance-wallet-blockchain (get-blockchain) wallet-a))
     (sleep 5)
     (mine-loop)))
 

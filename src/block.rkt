@@ -11,7 +11,9 @@
 
 (define (calculate-block-hash previous-hash timestamp transaction nonce)
   (bytes->hex-string (sha256 (bytes-append
-           (string->bytes/utf-8 previous-hash)
+                              (if (bytes? previous-hash)
+                                  previous-hash
+                                  (string->bytes/utf-8 previous-hash))
            (string->bytes/utf-8 (number->string timestamp))
            (string->bytes/utf-8 (~a (serialize transaction)))
            (string->bytes/utf-8 (number->string nonce))))))
